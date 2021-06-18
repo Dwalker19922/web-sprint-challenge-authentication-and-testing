@@ -15,7 +15,7 @@ const hash = await bcrypt.hash(password,8)//hashing with bcrypt
 
 users.add({username,password:hash})//adds user to db
 .then(user=>{
-  res.json(user)//response
+  res.status(201).json(user)//response
 })
 .catch(next)//error
 
@@ -46,7 +46,7 @@ users.add({username,password:hash})//adds user to db
   */
 });
 
-router.post('/login', checkUsernameExist, (req, res) => {
+router.post('/login',verifyPayload,checkUsernameExist, (req, res) => {
 const{password}=req.body
 const [user]=req.user
 const hash = user.password
