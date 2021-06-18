@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken')
 const{SECRET}=require('../secrets/index');
 const bcrypt = require('bcrypt');
 const users=require("./auth-model")
-router.post('/register', async (req, res,next) => {
+const{verifyPayload}= require("./auth-middleware")
+router.post('/register', verifyPayload,async (req, res,next) => {
   const {username,password} = req.body
 const hash = await bcrypt.hash(password,8)
 users.add({username,password:hash})
