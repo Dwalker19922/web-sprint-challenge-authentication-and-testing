@@ -3,8 +3,13 @@ const router = require('express').Router();
 const jokes = require('./jokes-data');
 
 
-router.get('/', (req, res) => {
-  res.status(200).json(jokes);
+router.get('/', async (req, res) => {
+  try {
+    res.status(200).json(jokes);
+  } catch (error) {
+    next(error)
+  }
+
 });
 
 module.exports = router;
