@@ -54,7 +54,7 @@ const compare = bcrypt.compareSync(password,hash)
 if(compare===true){
 const token = buildToken(user)
 res.json({
-message:`welcome back ${user.username}`,
+message:`welcome back, ${user.username}`,
 token
 })
 }
