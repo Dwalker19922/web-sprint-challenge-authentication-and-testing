@@ -15,7 +15,8 @@ const hash = await bcrypt.hash(password,8)//hashing with bcrypt
 
 users.add({username,password:hash})//adds user to db
 .then(user=>{
-  res.status(201).json(user)//response
+const[returnUser] = user
+  res.status(201).json(returnUser)//response
 })
 .catch(next)//error
 
