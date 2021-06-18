@@ -1,17 +1,24 @@
+//required libraries
 const router = require('express').Router();
 const jwt = require('jsonwebtoken')
-const{SECRET}=require('../secrets/index');
 const bcrypt = require('bcrypt');
+
+//required files
+const{SECRET}=require('../secrets/index');
 const users=require("./auth-model")
-const{verifyPayload}= require("./auth-middleware")
-router.post('/register', verifyPayload,async (req, res,next) => {
-  const {username,password} = req.body
-const hash = await bcrypt.hash(password,8)
-users.add({username,password:hash})
+const{verifyPayload,verifyUsenameFree}= require("./auth-middleware")
+
+//endpoints
+router.post('/register', verifyPayload,verifyUsenameFree,async (req, res,next) => {
+  const {username,password} = req.body//destructuring
+
+const hash = await bcrypt.hash(password,8)//hashing with bcrypt
+
+users.add({username,password:hash})//adds user to db
 .then(user=>{
-  res.json(user)
+  res.json(user)//response
 })
-.catch(next)
+.catch(next)//error
 
   /*
     IMPLEMENT
