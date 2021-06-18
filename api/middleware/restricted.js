@@ -1,5 +1,6 @@
+const jwt = require("jsonwebtoken")
+const {SECRET}=require("../secrets/index")
 module.exports = (req, res, next) => {
-  next();
   /*
     IMPLEMENT
 
@@ -16,9 +17,9 @@ module.exports = (req, res, next) => {
        res.status(401).json({message: "token required"})
       }
       else {
-       jwt.verify(token,JWT_SECRET,(err,decodedToken)=>{
+       jwt.verify(token,SECRET,(err,decodedToken)=>{
      if(err){
-     next({status:401, message:"token invalid"})
+     res.status(401).json({message:"token invalid"})
      }
      else{
      req.decodedToken=decodedToken
