@@ -9,7 +9,6 @@ beforeAll(async () => {
 })
 beforeEach(async () => {
   await db('users').truncate()
-  await db.seed.run()
 })
 afterAll(async () => {
   await db.destroy()
