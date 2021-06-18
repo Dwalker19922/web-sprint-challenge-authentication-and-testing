@@ -1,5 +1,5 @@
 require("dotenv").config()
 module.exports = {
-    SECRET:process.env.SECRET||"Shh"
+    SECRET:process.env.SECRET||"shh"
     }
     

@@ -4,10 +4,12 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 
 //required files
-const users=require("./auth-model")
-const{verifyPayload,verifyUsenameFree,checkUsernameExist}= require("./auth-middleware")
-const buildToken = require("../helpers/buildToken")
+const users=require("./auth-model")//model
+const{verifyPayload,verifyUsenameFree,checkUsernameExist}= require("./auth-middleware")//middleware
+const buildToken = require("../helpers/buildToken")//token bulder func
+
 //endpoints
+///register
 router.post('/register', verifyPayload,verifyUsenameFree,async (req, res,next) => {
   const {username,password} = req.body//destructuring
 
@@ -48,17 +50,21 @@ const[returnUser] = user
 });
 
 router.post('/login',verifyPayload,checkUsernameExist, (req, res) => {
-const{password}=req.body
-const [user]=req.user
-const hash = user.password
-const compare = bcrypt.compareSync(password,hash)
+const{password}=req.body//password from req
+const [user]=req.user// db user obj
+const hash = user.password// db user hash
+
+const compare = bcrypt.compareSync(password,hash)// returns true or false based on sync compare of hash and password from req
+
 if(compare===true){
-const token = buildToken(user)
+const token = buildToken(user)//imported helper function creating a user token
+
 res.json({
-message:`welcome, ${user.username}`,
-token
+message:`welcome, ${user.username}`,// sent to user only if password is valid
+token//newly created json Web Token
 })
 }
+
 else{
 res.status(401).json({message:"invalid credentials"})
 }
@@ -87,4 +93,5 @@ res.status(401).json({message:"invalid credentials"})
       the response body should include a string exactly as follows: "invalid credentials".
   */
 });
+
 module.exports = router;

@@ -14,16 +14,16 @@ module.exports = (req, res, next) => {
   */
       const token = req.headers.authorization
       if(!token) {
-       res.status(401).json({message: "token required"})
+       res.status(401).json({message: "token required"})//handles posibility of missing token
       }
       else {
-       jwt.verify(token,SECRET,(err,decodedToken)=>{
+       jwt.verify(token,SECRET,(err,decodedToken)=>{//comparison
      if(err){
-     res.status(401).json({message:"token invalid"})
+     res.status(401).json({message:"token invalid"})//handles possibility of bad token
      }
      else{
-     req.decodedToken=decodedToken
-     next()
+     req.decodedToken=decodedToken//for future use if needed
+     next()//passes comparison
      }
        })
       }
