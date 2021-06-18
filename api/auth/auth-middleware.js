@@ -32,9 +32,25 @@ const verifyUsenameFree = async (req, res, next) => {
         next()
     }
 }
+const checkUsernameExist= async(req,res,next)=>{
+
+    const { username } = req.body
+
+    const user = await findBy({ username })
+
+    if (user.length ===0) {
+        res.status(400).json({ message: "invalid credentials" })
+    }
+
+    else {
+        req.user=user
+        next()
+    }
+}
 
 
 module.exports = {
     verifyPayload,
-    verifyUsenameFree
+    verifyUsenameFree,
+    checkUsernameExist
 }
